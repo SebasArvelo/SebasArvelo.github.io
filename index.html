@@ -3,72 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bingo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url(bingobackground.jpg); 
-            background-size: cover;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        #bingo-board {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            margin-top: 20px;
-        }
-
-        .cell {
-            background-color: #fff;
-            border: 2px solid #ccc;
-            padding: 20px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .cell:hover {
-            background-color: #f5f5f5;
-        }
-
-        button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Bingo Sebas</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+<body style="background-image: url(bingobackground.jpg);">
+    <div class="container">
+        <h1>Bingo Sebas</h1>
+        <div id="menu">
+            <label for="player-names">Ingrese los nombres de los jugadores</label>
+            <textarea id="player-names" rows="4" cols="30"></textarea>
+            <label for="card-size">Tamaño del cartón (3-5):</label>
+            <input type="number" id="card-size" min="3" max="5" value="3">
+            <button onclick="startGame()">Iniciar Juego</button>
+        </div>
+        <div id="bingo-game" style="display: none;">
+            <div id="player-info">
+                <label for="select-player">Seleccionar Jugador:</label>
+                <select id="select-player" onchange="changePlayer()"></select>
+                <p>Turno actual: <span id="turn-counter">0</span></p>
+                <p>Puntaje Total: <span id="total-score">0</span></p>
+            </div>
+            <div id="bingo-board"></div>
+            <button onclick="callNumber()">Llamar número</button>
+            <button onclick="resetGame()">Reiniciar Juego</button>
+        </div>
+        <div id="game-over" style="display: none;">
+            <h2>¡Juego Terminado!</h2>
+            <div id="final-scores"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
 
