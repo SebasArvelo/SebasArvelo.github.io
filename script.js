@@ -19,14 +19,11 @@ function iniciarJuego() {
     const nombresJugadores = [];
     for (let i = 1; i <= 4; i++) {
         const nombre = document.getElementById(`player${i}-name`).value.trim();
-        if (nombre !== '') {
-            nombresJugadores.push(nombre);
+        if (nombre === '') {
+            alert('Por favor, ingrese el nombre de todos los jugadores.');
+            return;
         }
-    }
-    // Verificar que se hayan ingresado nombres para al menos dos jugadores
-    if (nombresJugadores.length < 2) {
-        alert('Por favor, ingrese al menos dos nombres de jugadores.');
-        return;
+        nombresJugadores.push(nombre);
     }
     jugadores = nombresJugadores;
     indiceJugadorActual = 0;
@@ -181,3 +178,4 @@ function reiniciarJuego() {
     const contenedorCartones = document.getElementById('bingo-board');
     contenedorCartones.innerHTML = '';
 }
+
