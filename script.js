@@ -87,22 +87,15 @@ function generarMatrizBingo() {
 
 // Función para actualizar la interfaz con la información del jugador actual
 function actualizarInformacionJugador() {
-    document.getElementById('seleccionar-jugador').innerHTML = '';
+    document.getElementById('select-player').innerHTML = '';
     for (let i = 0; i < jugadores.length; i++) {
         const opcion = document.createElement('option');
         opcion.value = i;
         opcion.textContent = jugadores[i];
-        document.getElementById('seleccionar-jugador').appendChild(opcion);
+        document.getElementById('select-player').appendChild(opcion);
     }
-    document.getElementById('seleccionar-jugador').selectedIndex = indiceJugadorActual;
-    document.getElementById('contador-turnos').textContent = contadorTurnos;
-    document.getElementById('puntaje-total').textContent = puntajesTotales[indiceJugadorActual];
-}
-
-// Función para cambiar al siguiente jugador
-function cambiarJugador() {
-    indiceJugadorActual = parseInt(document.getElementById('seleccionar-jugador').value);
-    actualizarInformacionJugador();
+    document.getElementById('turn-counter').textContent = contadorTurnos;
+    document.getElementById('total-score').textContent = puntajesTotales[indiceJugadorActual];
 }
 
 // Función para llamar un número de bingo aleatorio
@@ -170,7 +163,7 @@ function mostrarFinJuego() {
     document.getElementById('bingo-game').style.display = 'none';
     document.getElementById('game-over').style.display = 'block';
     // Mostrar el puntaje total de cada jugador y la cantidad de victorias acumuladas
-    const puntajesFinales = document.getElementById('puntajes-finales');
+    const puntajesFinales = document.getElementById('final-scores');
     puntajesFinales.innerHTML = '';
     for (let i = 0; i < jugadores.length; i++) {
         const puntajeJugador = document.createElement('p');
@@ -188,11 +181,3 @@ function reiniciarJuego() {
     const contenedorCartones = document.getElementById('bingo-board');
     contenedorCartones.innerHTML = '';
 }
-
-
-
-
-
-
-
-
