@@ -10,8 +10,14 @@
     <div class="container">
         <h1>Bingo Sebas</h1>
         <div id="menu">
-            <label for="player-names">Ingrese los nombres de los jugadores</label>
-            <textarea id="player-names" rows="4" cols="30"></textarea>
+            <label for="player1-name">Ingrese el nombre del Jugador 1:</label>
+            <input type="text" id="player1-name">
+            <label for="player2-name">Ingrese el nombre del Jugador 2:</label>
+            <input type="text" id="player2-name">
+            <label for="player3-name">Ingrese el nombre del Jugador 3:</label>
+            <input type="text" id="player3-name">
+            <label for="player4-name">Ingrese el nombre del Jugador 4:</label>
+            <input type="text" id="player4-name">
             <label for="card-size">Tamaño del cartón (3-5):</label>
             <input type="number" id="card-size" min="3" max="5" value="3">
             <button onclick="startGame()">Iniciar Juego</button>
@@ -22,7 +28,6 @@
                 <select id="select-player" onchange="changePlayer()"></select>
                 <p>Turno actual: <span id="turn-counter">0</span></p>
                 <p>Puntaje Total: <span id="total-score">0</span></p>
-                <p>Numero llamado: <span id="called-number"></span></p>
             </div>
             <div id="bingo-board"></div>
             <button onclick="callNumber()">Llamar número</button>
