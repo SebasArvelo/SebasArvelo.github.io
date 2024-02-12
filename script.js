@@ -130,11 +130,13 @@ function actualizarCartonesBingo(numero) {
     const cartonActual = document.getElementById(`jugador${indiceJugadorActual + 1}-carton`);
     const celdas = cartonActual.querySelectorAll('.celda');
     celdas.forEach(celda => {
-        if (parseInt(celda.textContent) === numero) {
+        if (parseInt(celda.textContent) === numero) { // Corregido: Comparar el número llamado con el contenido de la celda
             celda.classList.add('marcada');
         }
     });
 }
+
+
 
 // Función para verificar si se ha completado un cartón lleno o se ha alcanzado el máximo de turnos
 function verificarFinJuego() {
