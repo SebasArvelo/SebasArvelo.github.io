@@ -68,8 +68,9 @@ function generarCartonesBingo() {
 // Función para generar una matriz cuadrada NxN para el cartón de bingo
 function generarMatrizBingo() {
     const matriz = [];
-    const numerosPorFila = tamañoCarton === 3 ? 9 : (tamañoCarton === 4 ? 16 : 25); // Determinar la cantidad de números por fila
+    const numerosPorFila = tamañoCarton ** 2; // Calcular el número total de números por fila
     const numerosDisponibles = Array.from({ length: 50 }, (_, i) => i + 1);
+    
     // Generar la matriz con números aleatorios únicos
     for (let i = 0; i < tamañoCarton; i++) {
         const fila = [];
@@ -82,6 +83,7 @@ function generarMatrizBingo() {
     }
     return matriz;
 }
+
 
 // Función para actualizar la interfaz con la información del jugador actual
 
