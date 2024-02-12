@@ -1,3 +1,5 @@
+document.getElementById("start-button").addEventListener("click", startGame);
+
 // Obtener elementos del DOM
 const playerNamesTextarea = document.getElementById('player-names');
 const cardSizeInput = document.getElementById('card-size');
