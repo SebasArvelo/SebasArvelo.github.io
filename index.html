@@ -41,6 +41,48 @@
 </body>
 </html>
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Sebas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-image: url('imagenes/bingobackground.jpg');">
+    <div class="container">
+        <h1>Bingo Sebas</h1>
+        <div id="menu">
+            <label for="player-names">Ingrese los nombres de los jugadores:</label>
+            <div class="player-inputs">
+                <input type="text" class="player-name" placeholder="Jugador 1">
+                <input type="text" class="player-name" placeholder="Jugador 2">
+                <input type="text" class="player-name" placeholder="Jugador 3">
+                <input type="text" class="player-name" placeholder="Jugador 4">
+            <label for="card-size">Tamaño del cartón (3-5):</label>
+            <input type="number" id="card-size" min="3" max="5" value="3">
+            <button id="start-game-btn">Iniciar Juego</button>
+        </div>
+        <div id="bingo-game" style="display: none;">
+            <div id="player-info">
+                <label for="select-player">Seleccionar Jugador:</label>
+                <select id="select-player"></select>
+                <p>Turno actual: <span id="turn-counter">0</span></p>
+                <p>Puntaje Total: <span id="total-score">0</span></p>
+            </div>
+            <div id="bingo-board"></div>
+            <button id="call-number-btn" disabled>Llamar número</button>
+            <button id="reset-game-btn">Reiniciar Juego</button>
+            <p>Número llamado: <span id="called-number"></span></p>
+        </div>
+        <div id="game-over" style="display: none;">
+            <h2>¡Juego Terminado!</h2>
+            <div id="final-scores"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
 
 
 

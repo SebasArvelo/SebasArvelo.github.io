@@ -1,13 +1,13 @@
-/* Estilos para el cuerpo de la página */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('imagenes/bingobackground.jpg'); 
-    background-size: cover; 
+    background-image: url('bingo_background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-/* Estilos para el contenedor principal */
 .container {
     max-width: 800px;
     margin: 20px auto;
@@ -15,18 +15,12 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Centrar el texto dentro del contenedor */
+    text-align: center;
 }
 
-/* Estilos para el título principal */
 h1 {
-    font-size: 36px; /* Tamaño del texto */
-    color: #333; /* Color del texto */
-    margin-bottom: 20px; /* Espacio inferior */
-}
-
-/* Estilos para el menú */
-#menu {
+    font-size: 36px;
+    color: #333;
     margin-bottom: 20px;
 }
 
@@ -38,20 +32,16 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Estilos para el juego de bingo */
 #bingo-game,
 #game-over {
     margin-top: 20px;
 }
 
-/* Estilos para el tablero de bingo */
 #bingo-board {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
     gap: 5px;
 }
 
-/* Estilos para las celdas del tablero de bingo */
 .cell {
     background-color: #fff;
     border: 2px solid #ccc;
@@ -68,7 +58,6 @@ h1 {
     background-color: #f5f5f5;
 }
 
-/* Estilos para los botones */
 button {
     display: block;
     width: 100%;
@@ -87,3 +76,13 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+#called-number {
+    font-weight: bold;
+    color: #333;
+}
+
+#player-info p {
+    margin: 10px 0;
+}
+
