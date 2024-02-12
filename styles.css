@@ -2,8 +2,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('bingobackground.jpg'); 
-    background-size: cover; 
+    background-image: url('imagenes/bingobackground.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .container {
@@ -26,7 +27,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-#menu label, #menu input, #menu textarea, #menu button {
+#menu label, #menu input, #menu button {
     display: block;
     margin-bottom: 10px;
 }
