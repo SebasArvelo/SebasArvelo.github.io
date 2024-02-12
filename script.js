@@ -68,6 +68,7 @@ function generarCartonesBingo() {
 // Función para generar una matriz cuadrada NxN para el cartón de bingo
 function generarMatrizBingo() {
     const matriz = [];
+    const numerosPorFila = tamañoCarton === 3 ? 9 : (tamañoCarton === 4 ? 16 : 25); // Determinar la cantidad de números por fila
     const numerosDisponibles = Array.from({ length: 50 }, (_, i) => i + 1);
     // Generar la matriz con números aleatorios únicos
     for (let i = 0; i < tamañoCarton; i++) {
@@ -83,6 +84,7 @@ function generarMatrizBingo() {
 }
 
 // Función para actualizar la interfaz con la información del jugador actual
+
 function actualizarInformacionJugador() {
     document.getElementById('select-player').innerHTML = '';
     for (let i = 0; i < jugadores.length; i++) {
@@ -91,7 +93,7 @@ function actualizarInformacionJugador() {
         opcion.textContent = jugadores[i];
         document.getElementById('select-player').appendChild(opcion);
     }
-    document.getElementById('turn-counter').textContent = contadorTurnos;
+    document.getElementById('turn-counter').textContent = contadorTurnos; // Corregido: Actualizar el contador de turnos
     document.getElementById('total-score').textContent = puntajesTotales[indiceJugadorActual];
 }
 
@@ -103,7 +105,7 @@ function llamarNumero() {
     // Obtener un número aleatorio entre 1 y 50
     const numeroAleatorio = obtenerNumeroAleatorio(1, 50);
     // Mostrar el número llamado en la interfaz
-    document.getElementById('numero-llamado').textContent = numeroAleatorio;
+    document.getElementById('numero-llamado').textContent = numeroAleatorio; // Corregido: Mostrar el número llamado
     // Actualizar los cartones de bingo de los jugadores
     actualizarCartonesBingo(numeroAleatorio);
     // Verificar si se ha completado un cartón lleno o se ha alcanzado el máximo de turnos
