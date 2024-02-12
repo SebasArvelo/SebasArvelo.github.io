@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('bingobackground.jpg'); /* Ruta a la imagen de fondo */
+    background-image: ('imagenes/bingobackground.jpg'); /* Ruta a la imagen de fondo */
     background-size: cover;
     background-position: center;
 }
