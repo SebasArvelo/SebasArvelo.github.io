@@ -2,10 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('bingo_background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: url('bingobackground.jpg'); 
+    background-size: cover; 
 }
 
 .container {
@@ -15,30 +13,31 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: center; /* Centrar el texto dentro del contenedor */
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 36px; /* Aumentar el tamaño del texto */
     color: #333;
+    margin-bottom: 20px; /* Agregar espacio inferior */
+}
+
+#menu {
     margin-bottom: 20px;
 }
 
-#menu label,
-#menu input,
-#menu textarea,
-#menu button {
+#menu label, #menu input, #menu textarea, #menu button {
     display: block;
     margin-bottom: 10px;
 }
 
-#bingo-game,
-#game-over {
+#bingo-game, #game-over {
     margin-top: 20px;
 }
 
 #bingo-board {
     display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 5px;
 }
 
@@ -77,13 +76,5 @@ button:hover {
     background-color: #0056b3;
 }
 
-#called-number {
-    font-weight: bold;
-    color: #333;
-}
-
-#player-info p {
-    margin: 10px 0;
-}
 
 
