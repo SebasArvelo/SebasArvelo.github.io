@@ -9,31 +9,33 @@
 <body style="background-image: url('imagenes/bingobackground.jpg');">
     <div class="container">
         <h1>Bingo Sebas</h1>
-        <div class="player-box">
-            <label for="player1">Nombre Jugador 1:</label>
-            <input type="text" id="player1" placeholder="Nombre del Jugador 1">
-        </div>
-        <div class="player-box">
-            <label for="player2">Nombre Jugador 2:</label>
-            <input type="text" id="player2" placeholder="Nombre del Jugador 2">
-        </div>
-        <div class="player-box">
-            <label for="player3">Nombre Jugador 3:</label>
-            <input type="text" id="player3" placeholder="Nombre del Jugador 3">
-        </div>
-        <div class="player-box">
-            <label for="player4">Nombre Jugador 4:</label>
-            <input type="text" id="player4" placeholder="Nombre del Jugador 4">
-        </div>
-        <div class="player-box">
+        <div id="menu">
+            <label for="player-names">Ingrese los nombres de los jugadores</label>
+            <textarea id="player-names" rows="4" cols="30"></textarea>
             <label for="card-size">Tamaño del cartón (3-5):</label>
             <input type="number" id="card-size" min="3" max="5" value="3">
+            <button id="start-button">Iniciar Juego</button>
         </div>
-        <button onclick="startGame()">Iniciar Juego</button>
+        <div id="bingo-game" style="display: none;">
+            <div id="player-info">
+                <label for="select-player">Seleccionar Jugador:</label>
+                <select id="select-player" onchange="changePlayer()"></select>
+                <p>Turno actual: <span id="turn-counter">0</span></p>
+                <p>Puntaje Total: <span id="total-score">0</span></p>
+            </div>
+            <div id="bingo-board"></div>
+            <button id="call-number-button">Llamar número</button>
+            <button id="reset-button">Reiniciar Juego</button>
+        </div>
+        <div id="game-over" style="display: none;">
+            <h2>¡Juego Terminado!</h2>
+            <div id="final-scores"></div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
