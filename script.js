@@ -1,192 +1,167 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const startButton = document.getElementById("start-button");
-    const bingoGame = document.getElementById("bingo-game");
-    const callNumberButton = document.getElementById("call-number-button");
-    const resetButton = document.getElementById("reset-button");
-    const bingoBoard = document.getElementById("bingo-board");
-    const playerSelect = document.getElementById("select-player");
-    const turnCounter = document.getElementById("turn-counter");
-    const totalScore = document.getElementById("total-score");
-    const gameOverDiv = document.getElementById("game-over");
-    const finalScores = document.getElementById("final-scores");
-
+document.addEventListener("DOMContentLoaded", function () {
+    // Variables globales
     let players = [];
     let currentPlayerIndex = 0;
-    let turn = 0;
-    let maxTurns = 25;
-    let bingoNumbers = [];
-    let markedNumbers = [];
-    let playerScores = {};
+    let totalScore = [0, 0, 0, 0];
+    let bingoBoard;
 
-    startButton.addEventListener("click", startGame);
-    callNumberButton.addEventListener("click", callNumber);
-    resetButton.addEventListener("click", resetGame);
-
+    // Función para iniciar el juego
     function startGame() {
-        resetGame();
+        // Obtener nombres de los jugadores y tamaño del cartón
+        let playerNames = document.getElementById("player-names").value.trim().split("\n");
+        let cardSize = parseInt(document.getElementById("card-size").value);
 
-        const cardSize = parseInt(document.getElementById("card-size").value);
-
-        // Generar cartones para cada jugador
-        players = Array.from(document.querySelectorAll(".player-name")).map(input => input.value);
-        players.forEach(player => {
-            generateBingoCard(player, cardSize);
-            playerScores[player] = { total: 0, victories: 0 };
-        });
-
-        // Mostrar interfaz de juego y jugador actual
-        bingoGame.style.display = "block";
-        updatePlayerSelect();
-
-        // Reiniciar contador de turnos
-        turn = 0;
-        updateTurnCounter();
-    }
-
-    function generateBingoCard(player, size) {
-        const card = [];
-        for (let i = 0; i < size; i++) {
-            const row = [];
-            for (let j = 0; j < size; j++) {
-                let num;
-                do {
-                    num = Math.floor(Math.random() * 50) + 1;
-                } while (row.includes(num));
-                row.push(num);
-            }
-            card.push(row);
-        }
-        renderBingoCard(player, card);
-    }
-
-    function renderBingoCard(player, card) {
-        const cardDiv = document.createElement("div");
-        cardDiv.classList.add("bingo-card");
-
-        card.forEach((row, i) => {
-            const rowDiv = document.createElement("div");
-            rowDiv.classList.add("bingo-row");
-            row.forEach(num => {
-                const cellDiv = document.createElement("div");
-                cellDiv.classList.add("bingo-cell");
-                cellDiv.textContent = num;
-                rowDiv.appendChild(cellDiv);
-            });
-            cardDiv.appendChild(rowDiv);
-        });
-
-        bingoBoard.appendChild(cardDiv);
-    }
-
-    function callNumber() {
-        if (turn >= maxTurns) {
-            endGame();
+        // Verificar que se hayan ingresado nombres para 4 jugadores
+        if (playerNames.length !== 4) {
+            alert("Por favor, ingrese los nombres de los 4 jugadores.");
             return;
         }
 
-        let num;
-        do {
-            num = Math.floor(Math.random() * 50) + 1;
-        } while (bingoNumbers.includes(num));
+        // Limpiar el tablero de bingo y reiniciar el puntaje
+        document.getElementById("bingo-board").innerHTML = "";
+        totalScore = [0, 0, 0, 0];
 
-        bingoNumbers.push(num);
-        turn++;
-        updateTurnCounter();
-
-        // Marcar número en los cartones
-        const currentPlayerCard = document.querySelector(".bingo-card.current");
-        const cells = currentPlayerCard.querySelectorAll(".bingo-cell");
-        cells.forEach(cell => {
-            if (parseInt(cell.textContent) === num) {
-                cell.classList.add("marked");
-                markedNumbers.push(num);
-                checkLinesAndBingo(currentPlayerCard);
-            }
-        });
-
-        // Llamar número en la interfaz
-        alert(`¡Número llamado! ${num}`);
-    }
-
-    function checkLinesAndBingo(card) {
-        const rows = card.querySelectorAll(".bingo-row");
-        const cols = [];
-        for (let i = 0; i < card.children.length; i++) {
-            const col = [];
-            for (let j = 0; j < card.children.length; j++) {
-                col.push(card.children[j].children[i]);
-            }
-            cols.push(col);
+        // Generar el cartón de bingo para cada jugador
+        players = [];
+        for (let i = 0; i < 4; i++) {
+            let player = generateBingoCard(cardSize);
+            players.push(player);
+            displayBingoCard(i, player);
         }
 
-        let lines = 0;
+        // Mostrar el tablero de bingo y actualizar la interfaz
+        document.getElementById("bingo-game").style.display = "block";
+        document.getElementById("menu").style.display = "none";
+        document.getElementById("select-player").innerHTML = playerNames.map((name, index) => `<option value="${index}">${name}</option>`).join("");
+        currentPlayerIndex = 0;
+        updatePlayerInfo();
+    }
+
+    // Función para generar un cartón de bingo aleatorio
+    function generateBingoCard(size) {
+        let card = [];
+        let numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+
+        for (let i = 0; i < size; i++) {
+            let row = [];
+            for (let j = 0; j < size; j++) {
+                let randomIndex = Math.floor(Math.random() * numbers.length);
+                row.push(numbers[randomIndex]);
+                numbers.splice(randomIndex, 1);
+            }
+            card.push(row);
+        }
+
+        return card;
+    }
+
+    // Función para mostrar un cartón de bingo en el tablero
+    function displayBingoCard(playerIndex, card) {
+        let board = document.getElementById("bingo-board");
+        let html = `<div class="player-card" id="player-card-${playerIndex}">`;
+        card.forEach((row, rowIndex) => {
+            row.forEach((number, colIndex) => {
+                html += `<div class="cell" id="cell-${playerIndex}-${rowIndex}-${colIndex}">${number}</div>`;
+            });
+        });
+        html += "</div>";
+        board.innerHTML += html;
+    }
+
+    // Función para actualizar la información del jugador actual
+    function updatePlayerInfo() {
+        document.getElementById("select-player").value = currentPlayerIndex;
+        document.getElementById("turn-counter").textContent = currentPlayerIndex + 1;
+        document.getElementById("total-score").textContent = totalScore[currentPlayerIndex];
+    }
+
+    // Función para cambiar el jugador actual
+    function changePlayer() {
+        currentPlayerIndex = parseInt(document.getElementById("select-player").value);
+        updatePlayerInfo();
+    }
+
+    // Función para llamar un número de bingo aleatorio
+    function callNumber() {
+        let number;
+        do {
+            number = Math.floor(Math.random() * 50) + 1;
+        } while (bingoBoard.some(row => row.includes(number)));
+
+        document.getElementById("called-number").textContent = number;
+
+        players.forEach((player, index) => {
+            let markedCells = document.querySelectorAll(`#player-card-${index} .cell`);
+            markedCells.forEach(cell => {
+                if (parseInt(cell.textContent) === number) {
+                    cell.classList.add("marked");
+                    totalScore[index]++;
+                    checkWin(index);
+                }
+            });
+        });
+
+        currentPlayerIndex = (currentPlayerIndex + 1) % 4;
+        updatePlayerInfo();
+    }
+
+    // Función para verificar si un jugador ha ganado
+    function checkWin(playerIndex) {
+        let win = false;
 
         // Verificar líneas horizontales y verticales
-        [...rows, ...cols].forEach(line => {
-            if ([...line].every(cell => cell.classList.contains("marked"))) {
-                lines++;
+        for (let i = 0; i < players[playerIndex].length; i++) {
+            if (players[playerIndex][i].every(number => document.getElementById(`cell-${playerIndex}-${i}-${players[playerIndex][i].indexOf(number)}`).classList.contains("marked"))) {
+                win = true;
+                break;
             }
-        });
-
-        // Verificar diagonales
-        const diagonal1 = [];
-        const diagonal2 = [];
-        for (let i = 0; i < card.children.length; i++) {
-            diagonal1.push(card.children[i].children[i]);
-            diagonal2.push(card.children[i].children[card.children.length - 1 - i]);
-        }
-
-        if ([...diagonal1, ...diagonal2].every(cell => cell.classList.contains("marked"))) {
-            lines += 2; // Ambas diagonales cuentan como dos líneas
-        }
-
-        if (lines > 0) {
-            playerScores[players[currentPlayerIndex]].total += lines;
-            if (lines >= 5) {
-                playerScores[players[currentPlayerIndex]].victories++;
-                endGame();
+            if (players[playerIndex].every(row => document.getElementById(`cell-${playerIndex}-${players[playerIndex].indexOf(row)}-${i}`).classList.contains("marked"))) {
+                win = true;
+                break;
             }
-            updateTotalScore();
+        }
+
+        // Verificar línea diagonal (de izquierda a derecha)
+        if (!win && players[playerIndex].every((row, index) => document.getElementById(`cell-${playerIndex}-${index}-${players[playerIndex][index].indexOf(row[index])}`).classList.contains("marked"))) {
+            win = true;
+        }
+
+        // Verificar línea diagonal (de derecha a izquierda)
+        if (!win && players[playerIndex].every((row, index) => document.getElementById(`cell-${playerIndex}-${index}-${players[playerIndex][index].indexOf(row[row.length - index - 1])}`).classList.contains("marked"))) {
+            win = true;
+        }
+
+        if (win) {
+            alert(`¡El jugador ${playerIndex + 1} ha ganado!`);
+            endGame();
         }
     }
 
-    function updatePlayerSelect() {
-        playerSelect.innerHTML = "";
-        players.forEach((player, index) => {
-            const option = document.createElement("option");
-            option.value = index;
-            option.textContent = player;
-            playerSelect.appendChild(option);
-        });
-    }
-
-    function updateTurnCounter() {
-        turnCounter.textContent = turn;
-    }
-
-    function updateTotalScore() {
-        totalScore.textContent = playerScores[players[currentPlayerIndex]].total;
-    }
-
+    // Función para terminar el juego
     function endGame() {
-        gameOverDiv.style.display = "block";
-        let html = "<h2>Puntajes Finales</h2>";
-        players.forEach(player => {
-            html += `<p>${player}: ${playerScores[player].total} puntos, ${playerScores[player].victories} victorias</p>`;
-        });
-        finalScores.innerHTML = html;
+        // Mostrar el puntaje final
+        let finalScores = "";
+        for (let i = 0; i < 4; i++) {
+            finalScores += `Jugador ${i + 1}: ${totalScore[i]} puntos\n`;
+        }
+        alert(finalScores);
+
+        // Reiniciar el juego
+        document.getElementById("bingo-game").style.display = "none";
+        document.getElementById("game-over").style.display = "block";
     }
 
+    // Función para reiniciar el juego
     function resetGame() {
-        players = [];
-        currentPlayerIndex = 0;
-        turn = 0;
-        bingoNumbers = [];
-        markedNumbers = [];
-        playerScores = {};
-        bingoBoard.innerHTML = "";
-        gameOverDiv.style.display = "none";
+        location.reload();
     }
+
+    // Asignar eventos a los botones
+    document.getElementById("start-button").addEventListener("click", startGame);
+    document.getElementById("call-button").addEventListener("click", callNumber);
+    document.getElementById("reset-button").addEventListener("click", resetGame);
+    document.getElementById("select-player").addEventListener("change", changePlayer);
 });
+
 
 
