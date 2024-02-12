@@ -20,18 +20,18 @@
             <input type="text" id="player4-name">
             <label for="card-size">Tamaño del cartón (3-5):</label>
             <input type="number" id="card-size" min="3" max="5" value="3">
-            <button onclick="startGame()">Iniciar Juego</button>
+            <button onclick="iniciarJuego()">Iniciar Juego</button>
         </div>
         <div id="bingo-game" style="display: none;">
             <div id="player-info">
                 <label for="select-player">Seleccionar Jugador:</label>
-                <select id="select-player" onchange="changePlayer()"></select>
+                <select id="select-player" onchange="cambiarJugador()"></select>
                 <p>Turno actual: <span id="turn-counter">0</span></p>
                 <p>Puntaje Total: <span id="total-score">0</span></p>
             </div>
             <div id="bingo-board"></div>
-            <button onclick="callNumber()">Llamar número</button>
-            <button onclick="resetGame()">Reiniciar Juego</button>
+            <button onclick="llamarNumero()">Llamar número</button>
+            <button onclick="reiniciarJuego()">Reiniciar Juego</button>
         </div>
         <div id="game-over" style="display: none;">
             <h2>¡Juego Terminado!</h2>
