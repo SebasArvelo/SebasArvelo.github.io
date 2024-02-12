@@ -146,7 +146,7 @@ function verificarFinJuego() {
     const cartonCompleto = Array.from(celdas).every(celda => celda.classList.contains('marcada'));
     if (cartonCompleto) {
         // Incrementar el puntaje total del jugador actual
-        puntajesTotales[indiceJugadorActual] += 5;
+        puntajesTotales[indiceJugadorActual] += 5; 
         juegoTerminado = true;
         mostrarFinJuego();
         return;
@@ -158,6 +158,7 @@ function verificarFinJuego() {
         return;
     }
 }
+
 
 // Función para mostrar el mensaje de juego terminado
 function mostrarFinJuego() {
