@@ -1,195 +1,196 @@
 // Variables globales
-let players = []; // Array para almacenar los nombres de los jugadores
-let currentPlayerIndex = 0; // Índice del jugador actual
-let turnCounter = 0; // Contador de turnos
-let gameOver = false; // Variable para verificar si el juego ha terminado
-let totalScores = [0, 0, 0, 0]; // Array para almacenar los puntajes totales de los jugadores
+let jugadores = []; // Array para almacenar los nombres de los jugadores
+let indiceJugadorActual = 0; // Índice del jugador actual
+let contadorTurnos = 0; // Contador de turnos
+let juegoTerminado = false; // Variable para verificar si el juego ha terminado
+let puntajesTotales = [0, 0, 0, 0]; // Array para almacenar los puntajes totales de los jugadores
 
 // Función para iniciar el juego
-function startGame() {
+function iniciarJuego() {
     // Obtener el tamaño del cartón ingresado por el usuario
-    const cardSize = parseInt(document.getElementById('card-size').value);
+    const tamañoCarton = parseInt(document.getElementById('card-size').value);
     // Verificar que el tamaño del cartón sea válido (entre 3 y 5)
-    if (isNaN(cardSize) || cardSize < 3 || cardSize > 5) {
+    if (isNaN(tamañoCarton) || tamañoCarton < 3 || tamañoCarton > 5) {
         alert('El tamaño del cartón debe ser un número entre 3 y 5.');
         return;
     }
     // Obtener los nombres de los jugadores ingresados por el usuario
-    const player1Name = document.getElementById('player1-name').value.trim();
-    const player2Name = document.getElementById('player2-name').value.trim();
-    const player3Name = document.getElementById('player3-name').value.trim();
-    const player4Name = document.getElementById('player4-name').value.trim();
+    const jugador1Nombre = document.getElementById('player1-name').value.trim();
+    const jugador2Nombre = document.getElementById('player2-name').value.trim();
+    const jugador3Nombre = document.getElementById('player3-name').value.trim();
+    const jugador4Nombre = document.getElementById('player4-name').value.trim();
     // Verificar que se hayan ingresado nombres para todos los jugadores
-    if (player1Name === '' || player2Name === '' || player3Name === '' || player4Name === '') {
+    if (jugador1Nombre === '' || jugador2Nombre === '' || jugador3Nombre === '' || jugador4Nombre === '') {
         alert('Por favor, ingrese el nombre de todos los jugadores.');
         return;
     }
     // Reiniciar variables globales
-    players = [player1Name, player2Name, player3Name, player4Name];
-    currentPlayerIndex = 0;
-    turnCounter = 0;
-    gameOver = false;
-    totalScores = [0, 0, 0, 0];
+    jugadores = [jugador1Nombre, jugador2Nombre, jugador3Nombre, jugador4Nombre];
+    indiceJugadorActual = 0;
+    contadorTurnos = 0;
+    juegoTerminado = false;
+    puntajesTotales = [0, 0, 0, 0];
     // Generar los cartones de bingo para cada jugador
-    generateBingoCards(cardSize);
+    generarCartonesBingo(tamañoCarton);
     // Mostrar el tablero de juego y ocultar el menú principal
     document.getElementById('menu').style.display = 'none';
     document.getElementById('bingo-game').style.display = 'block';
     // Actualizar la interfaz con la información del jugador actual
-    updatePlayerInfo();
+    actualizarInformacionJugador();
     // Llamar a la función para llamar un número de bingo aleatorio
-    callNumber();
+    llamarNumero();
 }
 
 // Función para generar los cartones de bingo para cada jugador
-function generateBingoCards(cardSize) {
+function generarCartonesBingo(tamaño) {
     // Limpiar el contenedor de los cartones de bingo
-    const bingoBoardContainer = document.getElementById('bingo-board');
-    bingoBoardContainer.innerHTML = '';
+    const contenedorCartones = document.getElementById('bingo-board');
+    contenedorCartones.innerHTML = '';
     // Generar un cartón de bingo para cada jugador
     for (let i = 0; i < 4; i++) {
-        const bingoBoard = document.createElement('div');
-        bingoBoard.id = `player${i + 1}-board`;
-        bingoBoard.className = 'bingo-board';
+        const cartonBingo = document.createElement('div');
+        cartonBingo.id = `jugador${i + 1}-carton`;
+        cartonBingo.className = 'carton-bingo';
         // Generar la matriz del cartón de bingo
-        const bingoMatrix = generateBingoMatrix(cardSize);
+        const matrizBingo = generarMatrizBingo(tamaño);
         // Llenar el cartón con los números generados aleatoriamente
-        for (let row = 0; row < cardSize; row++) {
-            for (let col = 0; col < cardSize; col++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.textContent = bingoMatrix[row][col];
-                bingoBoard.appendChild(cell);
+        for (let fila = 0; fila < tamaño; fila++) {
+            for (let columna = 0; columna < tamaño; columna++) {
+                const celda = document.createElement('div');
+                celda.className = 'celda';
+                celda.textContent = matrizBingo[fila][columna];
+                cartonBingo.appendChild(celda);
             }
         }
         // Agregar el cartón al contenedor
-        bingoBoardContainer.appendChild(bingoBoard);
+        contenedorCartones.appendChild(cartonBingo);
     }
 }
 
 // Función para generar una matriz cuadrada NxN para el cartón de bingo
-function generateBingoMatrix(size) {
-    const matrix = [];
-    const minNumber = 1;
-    const maxNumber = 50;
+function generarMatrizBingo(tamaño) {
+    const matriz = [];
+    const numeroMinimo = 1;
+    const numeroMaximo = 50;
     // Generar la matriz con números aleatorios únicos
-    for (let i = 0; i < size; i++) {
-        const row = [];
-        for (let j = 0; j < size; j++) {
-            let randomNumber;
+    for (let i = 0; i < tamaño; i++) {
+        const fila = [];
+        for (let j = 0; j < tamaño; j++) {
+            let numeroAleatorio;
             do {
-                randomNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
-            } while (row.includes(randomNumber));
-            row.push(randomNumber);
+                numeroAleatorio = Math.floor(Math.random() * (numeroMaximo - numeroMinimo + 1)) + numeroMinimo;
+            } while (fila.includes(numeroAleatorio));
+            fila.push(numeroAleatorio);
         }
-        matrix.push(row);
+        matriz.push(fila);
     }
-    return matrix;
+    return matriz;
 }
 
 // Función para actualizar la interfaz con la información del jugador actual
-function updatePlayerInfo() {
-    document.getElementById('select-player').innerHTML = '';
+function actualizarInformacionJugador() {
+    document.getElementById('seleccionar-jugador').innerHTML = '';
     for (let i = 0; i < 4; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = players[i];
-        document.getElementById('select-player').appendChild(option);
+        const opcion = document.createElement('option');
+        opcion.value = i;
+        opcion.textContent = jugadores[i];
+        document.getElementById('seleccionar-jugador').appendChild(opcion);
     }
-    document.getElementById('select-player').selectedIndex = currentPlayerIndex;
-    document.getElementById('turn-counter').textContent = turnCounter;
-    document.getElementById('total-score').textContent = totalScores[currentPlayerIndex];
+    document.getElementById('seleccionar-jugador').selectedIndex = indiceJugadorActual;
+    document.getElementById('contador-turnos').textContent = contadorTurnos;
+    document.getElementById('puntaje-total').textContent = puntajesTotales[indiceJugadorActual];
 }
 
 // Función para cambiar al siguiente jugador
-function changePlayer() {
-    currentPlayerIndex = parseInt(document.getElementById('select-player').value);
-    updatePlayerInfo();
+function cambiarJugador() {
+    indiceJugadorActual = parseInt(document.getElementById('seleccionar-jugador').value);
+    actualizarInformacionJugador();
 }
 
 // Función para llamar un número de bingo aleatorio
-function callNumber() {
-    if (gameOver) {
+function llamarNumero() {
+    if (juegoTerminado) {
         return;
     }
     // Obtener un número aleatorio entre 1 y 50
-    const randomNumber = getRandomNumber(1, 50);
+    const numeroAleatorio = obtenerNumeroAleatorio(1, 50);
     // Mostrar el número llamado en la interfaz
-    document.getElementById('called-number').textContent = randomNumber;
+    document.getElementById('numero-llamado').textContent = numeroAleatorio;
     // Actualizar los cartones de bingo de los jugadores
-    updateBingoCards(randomNumber);
+    actualizarCartonesBingo(numeroAleatorio);
     // Verificar si se ha completado un cartón lleno o se ha alcanzado el máximo de turnos
-    checkGameOver();
+    verificarFinJuego();
     // Incrementar el contador de turnos y cambiar al siguiente jugador
-    turnCounter++;
-    if (currentPlayerIndex === 3) {
-        currentPlayerIndex = 0;
+    contadorTurnos++;
+    if (indiceJugadorActual === 3) {
+        indiceJugadorActual = 0;
     } else {
-        currentPlayerIndex++;
+        indiceJugadorActual++;
     }
-    updatePlayerInfo();
+    actualizarInformacionJugador();
 }
 
 // Función para obtener un número aleatorio en un rango específico
-function getRandomNumber(min, max) {
+function obtenerNumeroAleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // Función para actualizar los cartones de bingo de los jugadores
-function updateBingoCards(number) {
-    const currentBoard = document.getElementById(`player${currentPlayerIndex + 1}-board`);
-    const cells = currentBoard.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        if (parseInt(cell.textContent) === number) {
-            cell.classList.add('marked');
+function actualizarCartonesBingo(numero) {
+    const cartonActual = document.getElementById(`jugador${indiceJugadorActual + 1}-carton`);
+    const celdas = cartonActual.querySelectorAll('.celda');
+    celdas.forEach(celda => {
+        if (parseInt(celda.textContent) === numero) {
+            celda.classList.add('marcada');
         }
     });
 }
 
 // Función para verificar si se ha completado un cartón lleno o se ha alcanzado el máximo de turnos
-function checkGameOver() {
-    const currentBoard = document.getElementById(`player${currentPlayerIndex + 1}-board`);
-    const cells = currentBoard.querySelectorAll('.cell');
+function verificarFinJuego() {
+    const cartonActual = document.getElementById(`jugador${indiceJugadorActual + 1}-carton`);
+    const celdas = cartonActual.querySelectorAll('.celda');
     // Verificar si todas las celdas están marcadas en el cartón actual
-    const isBoardFull = Array.from(cells).every(cell => cell.classList.contains('marked'));
-    if (isBoardFull) {
+    const cartonCompleto = Array.from(celdas).every(celda => celda.classList.contains('marcada'));
+    if (cartonCompleto) {
         // Incrementar el puntaje total del jugador actual
-        totalScores[currentPlayerIndex] += 5;
-        gameOver = true;
-        showGameOver();
+        puntajesTotales[indiceJugadorActual] += 5;
+        juegoTerminado = true;
+        mostrarFinJuego();
         return;
     }
     // Verificar si se ha alcanzado el máximo de turnos
-    if (turnCounter >= 25) {
-        gameOver = true;
-        showGameOver();
+    if (contadorTurnos >= 25) {
+        juegoTerminado = true;
+        mostrarFinJuego();
         return;
     }
 }
 
 // Función para mostrar el mensaje de juego terminado
-function showGameOver() {
+function mostrarFinJuego() {
     document.getElementById('bingo-game').style.display = 'none';
     document.getElementById('game-over').style.display = 'block';
     // Mostrar el puntaje total de cada jugador y la cantidad de victorias acumuladas
-    const finalScores = document.getElementById('final-scores');
-    finalScores.innerHTML = '';
+    const puntajesFinales = document.getElementById('puntajes-finales');
+    puntajesFinales.innerHTML = '';
     for (let i = 0; i < 4; i++) {
-        const playerScore = document.createElement('p');
-        playerScore.textContent = `${players[i]}: ${totalScores[i]} puntos`;
-        finalScores.appendChild(playerScore);
+        const puntajeJugador = document.createElement('p');
+        puntajeJugador.textContent = `${jugadores[i]}: ${puntajesTotales[i]} puntos`;
+        puntajesFinales.appendChild(puntajeJugador);
     }
 }
 
 // Función para reiniciar el juego
-function resetGame() {
+function reiniciarJuego() {
     document.getElementById('menu').style.display = 'block';
     document.getElementById('bingo-game').style.display = 'none';
     document.getElementById('game-over').style.display = 'none';
     // Limpiar el tablero de bingo
-    const bingoBoardContainer = document.getElementById('bingo-board');
-    bingoBoardContainer.innerHTML = '';
+    const contenedorCartones = document.getElementById('bingo-board');
+    contenedorCartones.innerHTML = '';
 }
+
 
 
 
