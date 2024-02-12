@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-image: url('imagenes/bingobackground.jpg'); 
-    background-size: cover; /* Para que la imagen cubra todo el fondo */
+    background-size: cover; 
 }
 
 /* Estilos para el contenedor principal */
